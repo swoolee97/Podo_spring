@@ -16,4 +16,8 @@ public interface UserMapper {
             @Param("email") String email, @Param("password") String password
     );
 
+    public int emailCheck(@Param("email") String email);
+
+    public int insertUser(UserDTO userDTO);
+
 }

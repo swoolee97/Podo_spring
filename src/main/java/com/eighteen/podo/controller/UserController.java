@@ -1,6 +1,7 @@
 package com.eighteen.podo.controller;
 
 import com.eighteen.podo.dto.UserDTO;
+import com.eighteen.podo.exception.user.DuplicatedEmailException;
 import com.eighteen.podo.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,6 +34,19 @@ public class UserController {
         }
         return new ResponseEntity<>(LoginResponse.success(userDTO), HttpStatus.OK);
 
+    }
+
+    @PostMapping("signUp")
+    @ResponseStatus(HttpStatus.CREATED)
+    private void signUp(@RequestBody UserDTO userDTO) {
+        userService.insertUser(userDTO);
+    }
+
+    @ExceptionHandler(DuplicatedEmailException.class)
+    public ResponseEntity<String> handleDuplicatedEmail(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(e.getMessage());
     }
 
     @Getter
