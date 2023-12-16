@@ -7,11 +7,10 @@
         from user
     </select>
 
-    <select id="findByEmailAndPassword" resultType="com.eighteen.podo.dto.UserDTO">
+    <select id="findUserByEmail" resultType="com.eighteen.podo.dto.UserDTO">
         SELECT *
         from USER
         WHERE email = #{email}
-          AND password = #{password}
     </select>
 
     <select id="emailCheck" resultType="int">

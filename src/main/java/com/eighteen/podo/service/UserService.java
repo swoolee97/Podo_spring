@@ -14,9 +14,11 @@ public class UserService {
     private final UserMapper userMapper;
 
     public UserDTO login(String email, String password) {
-        String cryptedPassword = EncryptUtil.bcrypt(password);
-        UserDTO userDTO = userMapper.findByEmailAndPassword(email, cryptedPassword);
-        return userDTO;
+        UserDTO userDTO = userMapper.findUserByEmail(email);
+        if (EncryptUtil.isMatch(password, userDTO.getPassword())) {
+            return userDTO;
+        }
+        return null;
     }
 
     public void insertUser(UserDTO userDTO) {

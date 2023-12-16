@@ -12,8 +12,8 @@ public interface UserMapper {
 
     public ArrayList<String> findAll();
 
-    public UserDTO findByEmailAndPassword(
-            @Param("email") String email, @Param("password") String password
+    public UserDTO findUserByEmail(
+            @Param("email") String email
     );
 
     public int emailCheck(@Param("email") String email);
